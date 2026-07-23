@@ -1,0 +1,2957 @@
+{
+    "openapi": "3.1.0",
+    "info": { "title": "YearBook Service", "version": "1.0.0" },
+    "paths": {
+        "/api/v1/health": {
+            "get": {
+                "tags": ["Health"],
+                "summary": "Health",
+                "operationId": "health_api_v1_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "User login",
+                "description": "Authenticate user with username and password to obtain access token.",
+                "operationId": "login_api_v1_auth_login_post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_api_v1_auth_login_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/teachers": {
+            "get": {
+                "tags": ["Teachers", "Teachers"],
+                "summary": "Get Teachers",
+                "operationId": "get_teachers_api_v1_teachers_get",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Page number",
+                            "default": 1,
+                            "title": "Page"
+                        },
+                        "description": "Page number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Items per page",
+                            "default": 20,
+                            "title": "Limit"
+                        },
+                        "description": "Items per page"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "description": "Search by name, position, or subject",
+                            "title": "Search"
+                        },
+                        "description": "Search by name, position, or subject"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_TeacherItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/teachers/{uuid}": {
+            "get": {
+                "tags": ["Teachers", "Teachers"],
+                "summary": "Get Teacher Detail",
+                "operationId": "get_teacher_detail_api_v1_teachers__uuid__get",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_TeacherDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/classes": {
+            "get": {
+                "tags": ["Classes", "Classes"],
+                "summary": "Get Classes",
+                "operationId": "get_classes_api_v1_classes_get",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Page number",
+                            "default": 1,
+                            "title": "Page"
+                        },
+                        "description": "Page number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Items per page",
+                            "default": 20,
+                            "title": "Limit"
+                        },
+                        "description": "Items per page"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "description": "Search by class name",
+                            "title": "Search"
+                        },
+                        "description": "Search by class name"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                { "type": "integer" },
+                                { "type": "null" }
+                            ],
+                            "description": "Filter by graduation year",
+                            "title": "Year"
+                        },
+                        "description": "Filter by graduation year"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_ClassItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/classes/{uuid}": {
+            "get": {
+                "tags": ["Classes", "Classes"],
+                "summary": "Get Class Detail",
+                "operationId": "get_class_detail_api_v1_classes__uuid__get",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_ClassDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/classes/{class_uuid}/students": {
+            "get": {
+                "tags": ["Classes", "Classes"],
+                "summary": "Get Students By Class",
+                "operationId": "get_students_by_class_api_v1_classes__class_uuid__students_get",
+                "parameters": [
+                    {
+                        "name": "class_uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Class Uuid" }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Page number",
+                            "default": 1,
+                            "title": "Page"
+                        },
+                        "description": "Page number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Items per page",
+                            "default": 20,
+                            "title": "Limit"
+                        },
+                        "description": "Items per page"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "description": "Search by student name",
+                            "title": "Search"
+                        },
+                        "description": "Search by student name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_StudentItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/students": {
+            "get": {
+                "tags": ["Students", "Students"],
+                "summary": "List Students",
+                "description": "List all active students with pagination and optional filters.\n\nQuery Parameters:\n- page: Page number (default: 1)\n- limit: Items per page (default: 20, max: 100)\n- search: Search by full_name or nick_name (ILIKE)\n- class_uuid: Filter by class UUID",
+                "operationId": "list_students_api_v1_students_get",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Page number",
+                            "default": 1,
+                            "title": "Page"
+                        },
+                        "description": "Page number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Items per page",
+                            "default": 20,
+                            "title": "Limit"
+                        },
+                        "description": "Items per page"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "description": "Search by name or nickname",
+                            "title": "Search"
+                        },
+                        "description": "Search by name or nickname"
+                    },
+                    {
+                        "name": "class_uuid",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "description": "Filter by class UUID",
+                            "title": "Class Uuid"
+                        },
+                        "description": "Filter by class UUID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_StudentItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/students/{student_uuid}": {
+            "get": {
+                "tags": ["Students", "Students"],
+                "summary": "Get Student Detail",
+                "description": "Get student detail by UUID.",
+                "operationId": "get_student_detail_api_v1_students__student_uuid__get",
+                "parameters": [
+                    {
+                        "name": "student_uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Student Uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_StudentDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/students/class/{class_uuid}/students": {
+            "get": {
+                "tags": ["Students", "Students"],
+                "summary": "Get Students By Class",
+                "description": "Get students for a specific class with pagination.\n\nQuery Parameters:\n- page: Page number (default: 1)\n- limit: Items per page (default: 20, max: 100)\n- search: Search by full_name or nick_name (ILIKE)",
+                "operationId": "get_students_by_class_api_v1_students_class__class_uuid__students_get",
+                "parameters": [
+                    {
+                        "name": "class_uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Class Uuid"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Page number",
+                            "default": 1,
+                            "title": "Page"
+                        },
+                        "description": "Page number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Items per page",
+                            "default": 20,
+                            "title": "Limit"
+                        },
+                        "description": "Items per page"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "description": "Search by name or nickname",
+                            "title": "Search"
+                        },
+                        "description": "Search by name or nickname"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_StudentItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings": {
+            "get": {
+                "tags": ["Settings", "Settings"],
+                "summary": "List Settings",
+                "description": "List all website settings.\n\nReturns all available settings including website info, header, footer, SEO, social media, and theme configurations.",
+                "operationId": "list_settings_api_v1_settings_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_List_SettingItem__"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/{setting_key}": {
+            "get": {
+                "tags": ["Settings", "Settings"],
+                "summary": "Get Setting Detail",
+                "description": "Get specific setting by key.\n\nSetting keys: website, header, footer, seo, social, theme",
+                "operationId": "get_setting_detail_api_v1_settings__setting_key__get",
+                "parameters": [
+                    {
+                        "name": "setting_key",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Setting Key" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_SettingDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/page-sections": {
+            "get": {
+                "tags": ["PageSections", "PageSections"],
+                "summary": "List Page Sections",
+                "description": "List active page sections for the public website.",
+                "operationId": "list_page_sections_api_v1_page_sections_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_List_PageSectionItem__"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/page-sections/{section_type}": {
+            "get": {
+                "tags": ["PageSections", "PageSections"],
+                "summary": "Get Page Section Detail",
+                "description": "Get active page section by type.",
+                "operationId": "get_page_section_detail_api_v1_page_sections__section_type__get",
+                "parameters": [
+                    {
+                        "name": "section_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Section Type" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_PageSectionDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/landing": {
+            "get": {
+                "tags": ["Landing", "Landing"],
+                "summary": "Get Landing",
+                "description": "Landing page aggregation endpoint.",
+                "operationId": "get_landing_api_v1_landing_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Dict_str__Any__"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/settings": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms List Settings",
+                "operationId": "cms_list_settings_api_v1_cms_settings_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_SettingItem__"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/api/v1/cms/settings/{setting_key}": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Get Setting Detail",
+                "operationId": "cms_get_setting_detail_api_v1_cms_settings__setting_key__get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "setting_key",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Setting Key" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_SettingDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Update Setting",
+                "operationId": "cms_update_setting_api_v1_cms_settings__setting_key__put",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "setting_key",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Setting Key" }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SettingUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_SettingDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/page-sections": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms List Page Sections",
+                "operationId": "cms_list_page_sections_api_v1_cms_page_sections_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_PageSectionItem__"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/api/v1/cms/page-sections/{section_type}": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Get Page Section Detail",
+                "operationId": "cms_get_page_section_detail_api_v1_cms_page_sections__section_type__get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "section_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Section Type" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_PageSectionDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Update Page Section",
+                "operationId": "cms_update_page_section_api_v1_cms_page_sections__section_type__put",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "section_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Section Type" }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PageSectionUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_PageSectionDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/teachers": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms List Teachers",
+                "operationId": "cms_list_teachers_api_v1_cms_teachers_get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1,
+                            "title": "Page"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "default": 20,
+                            "title": "Limit"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Search"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "name",
+                            "title": "Sort"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "asc",
+                            "title": "Order"
+                        }
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                { "type": "boolean" },
+                                { "type": "null" }
+                            ],
+                            "title": "Is Active"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_TeacherItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Create Teacher",
+                "operationId": "cms_create_teacher_api_v1_cms_teachers_post",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TeacherCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_TeacherDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/teachers/{uuid}": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Get Teacher Detail",
+                "operationId": "cms_get_teacher_detail_api_v1_cms_teachers__uuid__get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_TeacherDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Update Teacher",
+                "operationId": "cms_update_teacher_api_v1_cms_teachers__uuid__put",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TeacherUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_TeacherDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Delete Teacher",
+                "operationId": "cms_delete_teacher_api_v1_cms_teachers__uuid__delete",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Any_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/classes": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms List Classes",
+                "operationId": "cms_list_classes_api_v1_cms_classes_get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1,
+                            "title": "Page"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "default": 20,
+                            "title": "Limit"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Search"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                { "type": "integer" },
+                                { "type": "null" }
+                            ],
+                            "title": "Year"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "name",
+                            "title": "Sort"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "asc",
+                            "title": "Order"
+                        }
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                { "type": "boolean" },
+                                { "type": "null" }
+                            ],
+                            "title": "Is Active"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_ClassItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Create Class",
+                "operationId": "cms_create_class_api_v1_cms_classes_post",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClassCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_ClassDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/classes/{uuid}": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Get Class Detail",
+                "operationId": "cms_get_class_detail_api_v1_cms_classes__uuid__get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_ClassDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Update Class",
+                "operationId": "cms_update_class_api_v1_cms_classes__uuid__put",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClassUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_ClassDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Delete Class",
+                "operationId": "cms_delete_class_api_v1_cms_classes__uuid__delete",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Any_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/students": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms List Students",
+                "operationId": "cms_list_students_api_v1_cms_students_get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1,
+                            "title": "Page"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "default": 20,
+                            "title": "Limit"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Search"
+                        }
+                    },
+                    {
+                        "name": "class_uuid",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Class Uuid"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "full_name",
+                            "title": "Sort"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "asc",
+                            "title": "Order"
+                        }
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                { "type": "boolean" },
+                                { "type": "null" }
+                            ],
+                            "title": "Is Active"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_StudentItem_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Create Student",
+                "operationId": "cms_create_student_api_v1_cms_students_post",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StudentCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_StudentDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/students/{uuid}": {
+            "get": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Get Student Detail",
+                "operationId": "cms_get_student_detail_api_v1_cms_students__uuid__get",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_StudentDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Update Student",
+                "operationId": "cms_update_student_api_v1_cms_students__uuid__put",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StudentUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_StudentDetail_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["CMS", "CMS"],
+                "summary": "Cms Delete Student",
+                "operationId": "cms_delete_student_api_v1_cms_students__uuid__delete",
+                "security": [{ "OAuth2PasswordBearer": [] }],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Any_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cms/media/upload": {
+            "post": {
+                "tags": ["CMS Media"],
+                "summary": "Upload Media",
+                "description": "Uploads a media file (image, pdf) to the server.",
+                "operationId": "upload_media_api_v1_cms_media_upload_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_upload_media_api_v1_cms_media_upload_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ApiResponse": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [{}, { "type": "null" }],
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse"
+            },
+            "ApiResponse_Any_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": { "title": "Data" }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[Any]"
+            },
+            "ApiResponse_ClassDetail_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            { "$ref": "#/components/schemas/ClassDetail" },
+                            { "type": "null" }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[ClassDetail]"
+            },
+            "ApiResponse_Dict_str__Any__": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            { "additionalProperties": true, "type": "object" },
+                            { "type": "null" }
+                        ],
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[Dict[str, Any]]"
+            },
+            "ApiResponse_List_PageSectionItem__": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/PageSectionItem"
+                                },
+                                "type": "array"
+                            },
+                            { "type": "null" }
+                        ],
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[List[PageSectionItem]]"
+            },
+            "ApiResponse_List_SettingItem__": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/SettingItem"
+                                },
+                                "type": "array"
+                            },
+                            { "type": "null" }
+                        ],
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[List[SettingItem]]"
+            },
+            "ApiResponse_PageSectionDetail_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/PageSectionDetail"
+                            },
+                            { "type": "null" }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[PageSectionDetail]"
+            },
+            "ApiResponse_SettingDetail_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            { "$ref": "#/components/schemas/SettingDetail" },
+                            { "type": "null" }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[SettingDetail]"
+            },
+            "ApiResponse_StudentDetail_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            { "$ref": "#/components/schemas/StudentDetail" },
+                            { "type": "null" }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[StudentDetail]"
+            },
+            "ApiResponse_TeacherDetail_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            { "$ref": "#/components/schemas/TeacherDetail" },
+                            { "type": "null" }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[TeacherDetail]"
+            },
+            "ApiResponse_list_PageSectionItem__": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/PageSectionItem"
+                                },
+                                "type": "array"
+                            },
+                            { "type": "null" }
+                        ],
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[list[PageSectionItem]]"
+            },
+            "ApiResponse_list_SettingItem__": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/SettingItem"
+                                },
+                                "type": "array"
+                            },
+                            { "type": "null" }
+                        ],
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": ["success", "message"],
+                "title": "ApiResponse[list[SettingItem]]"
+            },
+            "Body_login_api_v1_auth_login_post": {
+                "properties": {
+                    "grant_type": {
+                        "anyOf": [
+                            { "type": "string", "pattern": "^password$" },
+                            { "type": "null" }
+                        ],
+                        "title": "Grant Type"
+                    },
+                    "username": { "type": "string", "title": "Username" },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "title": "Password"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "title": "Scope",
+                        "default": ""
+                    },
+                    "client_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Client Id"
+                    },
+                    "client_secret": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "format": "password",
+                        "title": "Client Secret"
+                    }
+                },
+                "type": "object",
+                "required": ["username", "password"],
+                "title": "Body_login_api_v1_auth_login_post"
+            },
+            "Body_upload_media_api_v1_cms_media_upload_post": {
+                "properties": {
+                    "file": {
+                        "type": "string",
+                        "format": "binary",
+                        "title": "File"
+                    }
+                },
+                "type": "object",
+                "required": ["file"],
+                "title": "Body_upload_media_api_v1_cms_media_upload_post"
+            },
+            "ClassCreate": {
+                "properties": {
+                    "name": { "type": "string", "title": "Name" },
+                    "slug": { "type": "string", "title": "Slug" },
+                    "graduation_year": {
+                        "type": "integer",
+                        "title": "Graduation Year"
+                    },
+                    "sort_order": {
+                        "anyOf": [
+                            { "type": "integer", "minimum": 0.0 },
+                            { "type": "null" }
+                        ],
+                        "title": "Sort Order",
+                        "default": 0
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image"
+                    },
+                    "homeroom_teacher_uuid": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Homeroom Teacher Uuid"
+                    },
+                    "is_active": {
+                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "title": "Is Active",
+                        "default": true
+                    }
+                },
+                "type": "object",
+                "required": ["name", "slug", "graduation_year"],
+                "title": "ClassCreate"
+            },
+            "ClassDetail": {
+                "properties": {
+                    "uuid": { "type": "string", "title": "Uuid" },
+                    "name": { "type": "string", "title": "Name" },
+                    "slug": { "type": "string", "title": "Slug" },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image"
+                    },
+                    "graduation_year": {
+                        "type": "integer",
+                        "title": "Graduation Year"
+                    },
+                    "homeroom_teacher": {
+                        "anyOf": [
+                            { "additionalProperties": true, "type": "object" },
+                            { "type": "null" }
+                        ],
+                        "title": "Homeroom Teacher"
+                    }
+                },
+                "type": "object",
+                "required": ["uuid", "name", "slug", "graduation_year"],
+                "title": "ClassDetail"
+            },
+            "ClassItem": {
+                "properties": {
+                    "uuid": { "type": "string", "title": "Uuid" },
+                    "name": { "type": "string", "title": "Name" },
+                    "slug": { "type": "string", "title": "Slug" },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image"
+                    },
+                    "graduation_year": {
+                        "type": "integer",
+                        "title": "Graduation Year"
+                    }
+                },
+                "type": "object",
+                "required": ["uuid", "name", "slug", "graduation_year"],
+                "title": "ClassItem"
+            },
+            "ClassUpdate": {
+                "properties": {
+                    "name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Name"
+                    },
+                    "slug": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Slug"
+                    },
+                    "graduation_year": {
+                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
+                        "title": "Graduation Year"
+                    },
+                    "sort_order": {
+                        "anyOf": [
+                            { "type": "integer", "minimum": 0.0 },
+                            { "type": "null" }
+                        ],
+                        "title": "Sort Order"
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image"
+                    },
+                    "homeroom_teacher_uuid": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Homeroom Teacher Uuid"
+                    },
+                    "is_active": {
+                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "title": "Is Active"
+                    }
+                },
+                "type": "object",
+                "title": "ClassUpdate"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "PageSectionDetail": {
+                "properties": {
+                    "section_type": {
+                        "type": "string",
+                        "title": "Section Type",
+                        "description": "Section type"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title",
+                        "description": "Section title"
+                    },
+                    "components": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Components",
+                        "description": "Section content"
+                    },
+                    "styles": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Styles",
+                        "description": "Section style configuration"
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Uuid",
+                        "description": "Section UUID"
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "title": "Sort Order",
+                        "description": "Section display order"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "title": "Is Active",
+                        "description": "Section publish status"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "section_type",
+                    "title",
+                    "uuid",
+                    "sort_order",
+                    "is_active"
+                ],
+                "title": "PageSectionDetail"
+            },
+            "PageSectionItem": {
+                "properties": {
+                    "section_type": {
+                        "type": "string",
+                        "title": "Section Type",
+                        "description": "Section type"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title",
+                        "description": "Section title"
+                    },
+                    "components": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Components",
+                        "description": "Section content"
+                    },
+                    "styles": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Styles",
+                        "description": "Section style configuration"
+                    }
+                },
+                "type": "object",
+                "required": ["section_type", "title"],
+                "title": "PageSectionItem"
+            },
+            "PageSectionUpdate": {
+                "properties": {
+                    "components": {
+                        "anyOf": [
+                            { "additionalProperties": true, "type": "object" },
+                            { "type": "null" }
+                        ],
+                        "title": "Components"
+                    },
+                    "styles": {
+                        "anyOf": [
+                            { "additionalProperties": true, "type": "object" },
+                            { "type": "null" }
+                        ],
+                        "title": "Styles"
+                    }
+                },
+                "type": "object",
+                "title": "PageSectionUpdate"
+            },
+            "PaginatedResponse_ClassItem_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "items": { "$ref": "#/components/schemas/ClassItem" },
+                        "type": "array",
+                        "title": "Data",
+                        "default": []
+                    },
+                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                },
+                "type": "object",
+                "required": ["success", "message", "meta"],
+                "title": "PaginatedResponse[ClassItem]"
+            },
+            "PaginatedResponse_StudentItem_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "items": { "$ref": "#/components/schemas/StudentItem" },
+                        "type": "array",
+                        "title": "Data",
+                        "default": []
+                    },
+                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                },
+                "type": "object",
+                "required": ["success", "message", "meta"],
+                "title": "PaginatedResponse[StudentItem]"
+            },
+            "PaginatedResponse_TeacherItem_": {
+                "properties": {
+                    "request_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Request Id"
+                    },
+                    "success": { "type": "boolean", "title": "Success" },
+                    "message": { "type": "string", "title": "Message" },
+                    "data": {
+                        "items": { "$ref": "#/components/schemas/TeacherItem" },
+                        "type": "array",
+                        "title": "Data",
+                        "default": []
+                    },
+                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                },
+                "type": "object",
+                "required": ["success", "message", "meta"],
+                "title": "PaginatedResponse[TeacherItem]"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "page": { "type": "integer", "title": "Page" },
+                    "size": { "type": "integer", "title": "Size" },
+                    "total": { "type": "integer", "title": "Total" }
+                },
+                "type": "object",
+                "required": ["page", "size", "total"],
+                "title": "PaginationMeta"
+            },
+            "SettingDetail": {
+                "properties": {
+                    "setting_key": {
+                        "type": "string",
+                        "title": "Setting Key",
+                        "description": "Unique setting key"
+                    },
+                    "components": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Components",
+                        "description": "Components configuration"
+                    },
+                    "styles": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Styles",
+                        "description": "Styles configuration"
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description",
+                        "description": "Setting description"
+                    }
+                },
+                "type": "object",
+                "required": ["setting_key"],
+                "title": "SettingDetail",
+                "description": "Setting detail response."
+            },
+            "SettingItem": {
+                "properties": {
+                    "setting_key": {
+                        "type": "string",
+                        "title": "Setting Key",
+                        "description": "Unique setting key (enum: website, header, footer, seo, social, theme)"
+                    },
+                    "components": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Components",
+                        "description": "Components configuration"
+                    },
+                    "styles": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Styles",
+                        "description": "Styles configuration"
+                    }
+                },
+                "type": "object",
+                "required": ["setting_key"],
+                "title": "SettingItem",
+                "description": "Setting item for list responses."
+            },
+            "SettingUpdate": {
+                "properties": {
+                    "components": {
+                        "anyOf": [
+                            { "additionalProperties": true, "type": "object" },
+                            { "type": "null" }
+                        ],
+                        "title": "Components"
+                    },
+                    "styles": {
+                        "anyOf": [
+                            { "additionalProperties": true, "type": "object" },
+                            { "type": "null" }
+                        ],
+                        "title": "Styles"
+                    }
+                },
+                "type": "object",
+                "title": "SettingUpdate"
+            },
+            "StudentCreate": {
+                "properties": {
+                    "class_uuid": { "type": "string", "title": "Class Uuid" },
+                    "nis": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nis"
+                    },
+                    "full_name": { "type": "string", "title": "Full Name" },
+                    "nick_name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nick Name"
+                    },
+                    "gender": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Gender"
+                    },
+                    "birth_place": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Birth Place"
+                    },
+                    "birth_date": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Birth Date"
+                    },
+                    "address": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Address"
+                    },
+                    "hobby": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Hobby"
+                    },
+                    "ambition": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Ambition"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image"
+                    },
+                    "instagram": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Instagram"
+                    },
+                    "tiktok": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Tiktok"
+                    },
+                    "email": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Email"
+                    },
+                    "phone": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Phone"
+                    },
+                    "sort_order": {
+                        "anyOf": [
+                            { "type": "integer", "minimum": 0.0 },
+                            { "type": "null" }
+                        ],
+                        "title": "Sort Order",
+                        "default": 0
+                    },
+                    "is_active": {
+                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "title": "Is Active",
+                        "default": true
+                    }
+                },
+                "type": "object",
+                "required": ["class_uuid", "full_name"],
+                "title": "StudentCreate"
+            },
+            "StudentDetail": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Uuid"
+                    },
+                    "class_id": { "type": "integer", "title": "Class Id" },
+                    "nis": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nis",
+                        "description": "Nomor induk siswa"
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "title": "Full Name",
+                        "description": "Nama lengkap"
+                    },
+                    "nick_name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nick Name",
+                        "description": "Nama panggilan"
+                    },
+                    "gender": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Gender",
+                        "description": "Jenis kelamin"
+                    },
+                    "birth_place": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Birth Place",
+                        "description": "Tempat lahir"
+                    },
+                    "birth_date": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Birth Date",
+                        "description": "Tanggal lahir"
+                    },
+                    "address": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Address",
+                        "description": "Alamat"
+                    },
+                    "hobby": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Hobby",
+                        "description": "Hobi"
+                    },
+                    "ambition": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Ambition",
+                        "description": "Cita-cita"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote",
+                        "description": "Quote"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo",
+                        "description": "Foto profil"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image",
+                        "description": "Cover image"
+                    },
+                    "instagram": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Instagram",
+                        "description": "Instagram handle"
+                    },
+                    "tiktok": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Tiktok",
+                        "description": "TikTok handle"
+                    },
+                    "email": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Email",
+                        "description": "Email"
+                    },
+                    "phone": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Phone",
+                        "description": "Nomor HP"
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "title": "Sort Order",
+                        "description": "Urutan",
+                        "default": 0
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            { "type": "string", "format": "date-time" },
+                            { "type": "null" }
+                        ],
+                        "title": "Created At",
+                        "description": "Waktu dibuat"
+                    },
+                    "updated_at": {
+                        "anyOf": [
+                            { "type": "string", "format": "date-time" },
+                            { "type": "null" }
+                        ],
+                        "title": "Updated At",
+                        "description": "Waktu diubah"
+                    }
+                },
+                "type": "object",
+                "required": ["uuid", "class_id", "full_name"],
+                "title": "StudentDetail",
+                "description": "Student detail response."
+            },
+            "StudentItem": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Uuid"
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "title": "Full Name",
+                        "description": "Nama lengkap siswa"
+                    },
+                    "nick_name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nick Name",
+                        "description": "Nama panggilan"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo",
+                        "description": "Foto profil"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote",
+                        "description": "Quote"
+                    }
+                },
+                "type": "object",
+                "required": ["uuid", "full_name"],
+                "title": "StudentItem",
+                "description": "Student item for list responses."
+            },
+            "StudentUpdate": {
+                "properties": {
+                    "class_uuid": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Class Uuid"
+                    },
+                    "nis": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nis"
+                    },
+                    "full_name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Full Name"
+                    },
+                    "nick_name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Nick Name"
+                    },
+                    "gender": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Gender"
+                    },
+                    "birth_place": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Birth Place"
+                    },
+                    "birth_date": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Birth Date"
+                    },
+                    "address": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Address"
+                    },
+                    "hobby": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Hobby"
+                    },
+                    "ambition": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Ambition"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo"
+                    },
+                    "cover_image": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Cover Image"
+                    },
+                    "instagram": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Instagram"
+                    },
+                    "tiktok": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Tiktok"
+                    },
+                    "email": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Email"
+                    },
+                    "phone": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Phone"
+                    },
+                    "sort_order": {
+                        "anyOf": [
+                            { "type": "integer", "minimum": 0.0 },
+                            { "type": "null" }
+                        ],
+                        "title": "Sort Order"
+                    },
+                    "is_active": {
+                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "title": "Is Active"
+                    }
+                },
+                "type": "object",
+                "title": "StudentUpdate"
+            },
+            "TeacherCreate": {
+                "properties": {
+                    "name": { "type": "string", "title": "Name" },
+                    "position": { "type": "string", "title": "Position" },
+                    "subject": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Subject"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote"
+                    },
+                    "biography": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Biography"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo"
+                    },
+                    "email": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Email"
+                    },
+                    "phone": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Phone"
+                    },
+                    "instagram": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Instagram"
+                    },
+                    "linkedin": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Linkedin"
+                    },
+                    "sort_order": {
+                        "anyOf": [
+                            { "type": "integer", "minimum": 0.0 },
+                            { "type": "null" }
+                        ],
+                        "title": "Sort Order",
+                        "default": 0
+                    },
+                    "is_active": {
+                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "title": "Is Active",
+                        "default": true
+                    }
+                },
+                "type": "object",
+                "required": ["name", "position"],
+                "title": "TeacherCreate"
+            },
+            "TeacherDetail": {
+                "properties": {
+                    "uuid": { "type": "string", "title": "Uuid" },
+                    "name": { "type": "string", "title": "Name" },
+                    "position": { "type": "string", "title": "Position" },
+                    "subject": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Subject"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote"
+                    },
+                    "biography": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Biography"
+                    },
+                    "email": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Email"
+                    },
+                    "phone": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Phone"
+                    },
+                    "instagram": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Instagram"
+                    },
+                    "linkedin": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Linkedin"
+                    }
+                },
+                "type": "object",
+                "required": ["uuid", "name", "position"],
+                "title": "TeacherDetail"
+            },
+            "TeacherItem": {
+                "properties": {
+                    "uuid": { "type": "string", "title": "Uuid" },
+                    "name": { "type": "string", "title": "Name" },
+                    "position": { "type": "string", "title": "Position" },
+                    "subject": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Subject"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo"
+                    }
+                },
+                "type": "object",
+                "required": ["uuid", "name", "position"],
+                "title": "TeacherItem"
+            },
+            "TeacherUpdate": {
+                "properties": {
+                    "name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Name"
+                    },
+                    "position": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Position"
+                    },
+                    "subject": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Subject"
+                    },
+                    "quote": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Quote"
+                    },
+                    "biography": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Biography"
+                    },
+                    "photo": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Photo"
+                    },
+                    "email": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Email"
+                    },
+                    "phone": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Phone"
+                    },
+                    "instagram": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Instagram"
+                    },
+                    "linkedin": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Linkedin"
+                    },
+                    "sort_order": {
+                        "anyOf": [
+                            { "type": "integer", "minimum": 0.0 },
+                            { "type": "null" }
+                        ],
+                        "title": "Sort Order"
+                    },
+                    "is_active": {
+                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "title": "Is Active"
+                    }
+                },
+                "type": "object",
+                "title": "TeacherUpdate"
+            },
+            "TokenResponse": {
+                "properties": {
+                    "access_token": {
+                        "type": "string",
+                        "title": "Access Token"
+                    },
+                    "token_type": {
+                        "type": "string",
+                        "title": "Token Type",
+                        "default": "bearer"
+                    }
+                },
+                "type": "object",
+                "required": ["access_token"],
+                "title": "TokenResponse",
+                "description": "Schema for the response after a successful login."
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                { "type": "string" },
+                                { "type": "integer" }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": { "type": "string", "title": "Message" },
+                    "type": { "type": "string", "title": "Error Type" }
+                },
+                "type": "object",
+                "required": ["loc", "msg", "type"],
+                "title": "ValidationError"
+            }
+        },
+        "securitySchemes": {
+            "OAuth2PasswordBearer": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "scopes": {},
+                        "tokenUrl": "/api/v1/auth/login"
+                    }
+                }
+            }
+        }
+    }
+}
